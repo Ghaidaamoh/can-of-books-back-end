@@ -162,7 +162,24 @@ app.post('/addBook',(req,res) =>{
   
   
    })
-   
     
   });
   
+  //update book
+
+app.put('/updateBook/:index',(req,res)=>{
+  const index=Number(req.params.index);
+  const {email,name ,description,status} =req.body;
+  userModel.find({email:email},(error,userData)=>{
+    if(error){
+      res.send('something wrong');
+    }else{
+      userData[0].books[index].name=name;
+      userData[0].books[index].description=description;
+      userData[0].books[index].status=status;
+      userData[0].save();
+      res.send(userData[0].books);
+
+    }
+  });
+})
